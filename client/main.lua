@@ -67,7 +67,7 @@ function OpenCriminalRecords(closestPlayer)
                 ESX.UI.Menu.Open(
                     'dialog', GetCurrentResourceName(), 'brottsregister_second',
                     {
-                        title = 'Crime?'
+                        title = 'سابقه'
                     },
                 function(data3, menu3)
                     local crime = (data3.value)

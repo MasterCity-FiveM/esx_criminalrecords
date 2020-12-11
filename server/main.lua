@@ -49,7 +49,6 @@ function getIdentity(source)
   end
 end
 
-
 --gets brottsregister
 ESX.RegisterServerCallback('esx_qalle_brottsregister:grab', function(source, cb, target)
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -90,6 +89,8 @@ AddEventHandler('esx_qalle_brottsregister:remove', function(id, crime)
 	if not xPlayer or not tPlayer or xPlayer.job.name ~= 'police' then
 		return
 	end
+	
+	local identifier = tPlayer.identifier
 	MySQL.Async.fetchAll(
 		'SELECT firstname FROM users WHERE identifier = @identifier',{['@identifier'] = identifier},
 	function(result)
