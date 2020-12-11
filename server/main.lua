@@ -4,7 +4,8 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 RegisterServerEvent('esx_qalle_brottsregister:add')
 AddEventHandler('esx_qalle_brottsregister:add', function(id, reason)
-  local identifier = ESX.GetPlayerFromId(id).identifier
+  local tPlayer = ESX.GetPlayerFromId(id)
+  local identifier = tPlayer.identifier
   local date = os.date("%Y-%m-%d")
   MySQL.Async.fetchAll(
     'SELECT firstname, lastname FROM users WHERE identifier = @identifier',{['@identifier'] = identifier},
@@ -45,8 +46,9 @@ end
 
 --gets brottsregister
 ESX.RegisterServerCallback('esx_qalle_brottsregister:grab', function(source, cb, target)
-  local identifier = ESX.GetPlayerFromId(target).identifier
-  local name = getIdentity(target)
+	local tPlayer = ESX.GetPlayerFromId(target)
+	local identifier = tPlayer.identifier
+	local name = getIdentity(target)
   MySQL.Async.fetchAll("SELECT identifier, firstname, lastname, dateofcrime, crime FROM `qalle_brottsregister` WHERE `identifier` = @identifier",
   {
     ['@identifier'] = identifier

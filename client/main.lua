@@ -46,8 +46,8 @@ function OpenCriminalRecords(closestPlayer)
 
         local elements = {}
 
-        table.insert(elements, {label = 'Add Crime To Player', value = 'crime'})
-        table.insert(elements, {label = '----= Crimes =----', value = 'spacer'})
+        table.insert(elements, {label = 'اضافه کردن سابقه جدید', value = 'crime'})
+        table.insert(elements, {label = '----= سوابق =----', value = 'spacer'})
 
         for i=1, #crimes, 1 do
             table.insert(elements, {label = crimes[i].date .. ' - ' .. crimes[i].crime, value = crimes[i].crime, name = crimes[i].name})
@@ -78,7 +78,7 @@ function OpenCriminalRecords(closestPlayer)
                     else
                         menu2.close()
                         menu3.close()
-                        TriggerServerEvent('esx_qalle_brottsregister:add', GetPlayerServerId(closestPlayer), crime)
+                        TriggerServerEvent('esx_qalle_brottsregister:add', closestPlayer, crime)
                         ESX.ShowNotification('Added to register!')
                         Citizen.Wait(100)
                         OpenCriminalRecords(closestPlayer)
@@ -92,11 +92,11 @@ function OpenCriminalRecords(closestPlayer)
             ESX.UI.Menu.Open(
                 'default', GetCurrentResourceName(), 'remove_confirmation',
                     {
-                    title    = 'Remove?',
+                    title    = 'آیا حذف شود؟',
                     align		= 'right',
                     elements = {
-                        {label = 'Yes', value = 'yes'},
-                        {label = 'No', value = 'no'}
+                        {label = 'بله', value = 'yes'},
+                        {label = 'خیر', value = 'no'}
                     }
                 },
             function(data3, menu3)
@@ -104,7 +104,7 @@ function OpenCriminalRecords(closestPlayer)
                 if data3.current.value == 'yes' then
                     menu2.close()
                     menu3.close()
-                    TriggerServerEvent('esx_qalle_brottsregister:remove', GetPlayerServerId(closestPlayer), data2.current.value)
+                    TriggerServerEvent('esx_qalle_brottsregister:remove', closestPlayer, data2.current.value)
                     ESX.ShowNotification('Removed!')
                     Citizen.Wait(100)
                     OpenCriminalRecords(closestPlayer)
@@ -123,7 +123,7 @@ function OpenCriminalRecords(closestPlayer)
             menu2.close()
         end)
 
-    end, GetPlayerServerId(closestPlayer))
+    end, closestPlayer)
 end
 
 --[[
