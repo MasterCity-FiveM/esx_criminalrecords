@@ -50,7 +50,7 @@ function OpenCriminalRecords(closestPlayer)
         table.insert(elements, {label = '----= سوابق =----', value = 'spacer'})
 
         for i=1, #crimes, 1 do
-            table.insert(elements, {label = crimes[i].date .. ' - ' .. crimes[i].crime, value = crimes[i].crime, name = crimes[i].name})
+            table.insert(elements, {label = crimes[i].date .. ' - ' .. crimes[i].crime .. ' - توسط: ' .. crimes[i].author, value = crimes[i].crime, name = crimes[i].name})
         end
 
 

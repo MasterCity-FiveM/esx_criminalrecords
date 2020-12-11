@@ -11,19 +11,22 @@ AddEventHandler('esx_qalle_brottsregister:add', function(id, reason)
 		return
 	end
 	
+	local SourceName = GetPlayerName(source)
+	
 	local identifier = tPlayer.identifier
 	local date = os.date("%Y-%m-%d")
 	MySQL.Async.fetchAll(
 		'SELECT firstname, lastname FROM users WHERE identifier = @identifier',{['@identifier'] = identifier},
 		function(result)
 			if result[1] ~= nil then
-				MySQL.Async.execute('INSERT INTO qalle_brottsregister (identifier, firstname, lastname, dateofcrime, crime) VALUES (@identifier, @firstname, @lastname, @dateofcrime, @crime)',
+				MySQL.Async.execute('INSERT INTO qalle_brottsregister (identifier, firstname, lastname, dateofcrime, crime, author) VALUES (@identifier, @firstname, @lastname, @dateofcrime, @crime, @author)',
 					{
 					['@identifier']   = identifier,
 					['@firstname']    = result[1].firstname,
 					['@lastname']     = result[1].lastname,
 					['@dateofcrime']  = date,
 					['@crime']        = reason,
+					['@author']        = SourceName,
 					}
 				)
 		end
@@ -61,7 +64,7 @@ ESX.RegisterServerCallback('esx_qalle_brottsregister:grab', function(source, cb,
 	
 	local identifier = tPlayer.identifier
 	local name = getIdentity(target)
-	MySQL.Async.fetchAll("SELECT identifier, firstname, lastname, dateofcrime, crime FROM `qalle_brottsregister` WHERE `identifier` = @identifier LIMIT 10",
+	MySQL.Async.fetchAll("SELECT identifier, firstname, lastname, dateofcrime, crime, author FROM `qalle_brottsregister` WHERE `identifier` = @identifier LIMIT 10",
 	{
 		['@identifier'] = identifier
 	},
@@ -72,6 +75,7 @@ ESX.RegisterServerCallback('esx_qalle_brottsregister:grab', function(source, cb,
 				for i=1, #result, 1 do
 				table.insert(crime, {
 				crime = result[i].crime,
+				author = result[i].author,
 				name = result[i].firstname .. ' - ' .. result[i].lastname,
 				date = result[i].dateofcrime,
 			})
