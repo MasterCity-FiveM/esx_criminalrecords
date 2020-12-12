@@ -1,15 +1,3 @@
-local Keys = {
-  ["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57,
-  ["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177,
-  ["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
-  ["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
-  ["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
-  ["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70,
-  ["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
-  ["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
-}
-
-
 --- esx
 ESX                           = nil
 local PlayerData              = {}
@@ -73,13 +61,13 @@ function OpenCriminalRecords(closestPlayer)
                     local crime = (data3.value)
 
                     if crime == tonumber(data3.value) then
-                        ESX.ShowNotification('Action Impossible')
+                        exports.pNotify:SendNotification({text = "درخواست صحیح نیست.", type = "error", timeout = 4000})
                         menu3.close()               
                     else
                         menu2.close()
                         menu3.close()
                         TriggerServerEvent('esx_qalle_brottsregister:add', closestPlayer, crime)
-                        ESX.ShowNotification('Added to register!')
+                        exports.pNotify:SendNotification({text = "سابقه ثبت شد.", type = "success", timeout = 4000})
                         Citizen.Wait(100)
                         OpenCriminalRecords(closestPlayer)
                     end
@@ -105,7 +93,7 @@ function OpenCriminalRecords(closestPlayer)
                     menu2.close()
                     menu3.close()
                     TriggerServerEvent('esx_qalle_brottsregister:remove', closestPlayer, data2.current.value)
-                    ESX.ShowNotification('Removed!')
+                    exports.pNotify:SendNotification({text = "سابقه حذف شد.", type = "success", timeout = 4000})
                     Citizen.Wait(100)
                     OpenCriminalRecords(closestPlayer)
                 else
@@ -125,21 +113,3 @@ function OpenCriminalRecords(closestPlayer)
 
     end, closestPlayer)
 end
-
---[[
-Citizen.CreateThread(function()
-    while true do 
-        Citizen.Wait(5)
-        if IsControlJustReleased(0, Keys['F5']) then
-            if PlayerData.job.name == 'police' then
-                local closestPlayer, distance = ESX.Game.GetClosestPlayer()
-                if distance ~= -1 and distance <= 3 then
-                    OpenCriminalRecords(closestPlayer)
-                else
-                    ESX.ShowNotification('No players nearby')
-                end
-            end
-        end
-    end
-end)
-]]
