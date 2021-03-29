@@ -4,6 +4,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 RegisterServerEvent('esx_qalle_brottsregister:add')
 AddEventHandler('esx_qalle_brottsregister:add', function(id, reason)
+	ESX.RunCustomFunction("anti_ddos", source, 'esx_qalle_brottsregister:add', {id = id, reason = reason})
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local tPlayer = ESX.GetPlayerFromId(id)
 	
@@ -54,6 +55,7 @@ end
 
 --gets brottsregister
 ESX.RegisterServerCallback('esx_qalle_brottsregister:grab', function(source, cb, target)
+	ESX.RunCustomFunction("anti_ddos", source, 'esx_qalle_brottsregister:grab', {target = target})
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local tPlayer = ESX.GetPlayerFromId(target)
 		
@@ -87,6 +89,7 @@ end)
 
 RegisterServerEvent('esx_qalle_brottsregister:remove')
 AddEventHandler('esx_qalle_brottsregister:remove', function(id, crime)
+	ESX.RunCustomFunction("anti_ddos", source, 'esx_qalle_brottsregister:remove', {id = id, crime = crime})
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local tPlayer = ESX.GetPlayerFromId(id)
 		
